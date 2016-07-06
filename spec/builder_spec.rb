@@ -47,12 +47,34 @@ describe ThreeStars::Builder do
     end
 
     context 'index name' do
-      let(:options) { { name: 'my_idx' } }
-      let(:sql) { 'select id from users' }
-      let(:instance) { klass.new(sql, options) }
+      context 'as an option' do
+        let(:options) { { name: 'my_idx' } }
+        let(:sql) { 'select id from users' }
+        let(:instance) { klass.new(sql, options) }
 
-      it 'allows a name to be passed in as an option' do
-        expect(instance.call).to eq 'add_index :users, :id, name: \'my_idx\''
+        it 'creates an explicitly named index' do
+          expect(instance.call).to eq 'add_index :users, :id, name: \'my_idx\''
+        end
+      end
+
+      context 'for many columns' do
+        let(:columns) {
+          %w(
+            foo bar baz
+            qux quux quuux
+            quuuux quuuuux quuuuuux
+            quuuuuuux quuuuuuuux quuuuuuuuux
+          ).join(",")
+        }
+        let(:sql) { "select #{columns} from users" }
+
+        it 'appends _idx to the index name' do
+          expect(instance.index_name.slice(-4,4)).to eq("_idx")
+        end
+
+        it 'should truncate the name to 47 characters' do
+          expect(instance.index_name.length).to eq(47)
+        end
       end
     end
   end
