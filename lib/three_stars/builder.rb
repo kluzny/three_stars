@@ -1,13 +1,17 @@
+
 module ThreeStars
   # generate the recommended index
   class Builder
-    attr_accessor :lexer
-    def initialize(sql)
+    include ThreeStars::Helpers
+    attr_accessor :lexer, :name
+    def initialize(sql, options = {})
+      self.name = options[:name]
       self.lexer = Lexer.new(sql)
     end
 
     def call
-      "add_index #{resym index_table}, #{resym index_columns}"
+      "add_index #{resym index_table}, " \
+        "#{resym index_columns}#{index_name}".strip
     end
 
     def resym(symbol)
@@ -36,6 +40,10 @@ module ThreeStars
       else
         index_fields
       end
+    end
+
+    def index_name
+      ", name: '#{name}'" if present?(name)
     end
   end
 end

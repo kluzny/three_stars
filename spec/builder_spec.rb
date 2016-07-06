@@ -45,5 +45,15 @@ describe ThreeStars::Builder do
         expect(instance.call).to eq 'add_index :users, [:commits, :name, :id]'
       end
     end
+
+    context 'index name' do
+      let(:options) { { name: 'my_idx' } }
+      let(:sql) { 'select id from users' }
+      let(:instance) { klass.new(sql, options) }
+
+      it 'allows a name to be passed in as an option' do
+        expect(instance.call).to eq 'add_index :users, :id, name: \'my_idx\''
+      end
+    end
   end
 end

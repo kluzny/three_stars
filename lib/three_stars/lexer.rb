@@ -1,6 +1,7 @@
 module ThreeStars
   # Isolates the different parts and index targets of sql statements
   class Lexer
+    include ThreeStars::Helpers
     attr_accessor :sql, :parser, :ast
 
     def initialize(sql)
@@ -8,10 +9,6 @@ module ThreeStars
       self.sql = sql
       self.parser = SQLParser::Parser.new
       self.ast = parser.scan_str(sql)
-    end
-
-    def blank?(string)
-      string.nil? || !string.is_a?(String) || string.strip.empty?
     end
 
     def tables
