@@ -36,5 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'byebug', '~> 9.0.0'
+  spec.add_development_dependency 'awesome_print', '~> 1.7.0'
   spec.add_runtime_dependency 'sql-parser', '~> 0.0.2'
+  spec.add_runtime_dependency 'pg_query', '~> 0.11.2'
 end

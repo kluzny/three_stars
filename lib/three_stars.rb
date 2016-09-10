@@ -1,5 +1,6 @@
 require 'byebug'
-require 'sql-parser'
+require 'awesome_print'
+require 'pg_query'
 require 'three_stars/version'
 require 'three_stars/helpers'
 require 'three_stars/lexer'
