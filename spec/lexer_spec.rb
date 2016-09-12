@@ -85,15 +85,29 @@ describe ThreeStars::Lexer do
   describe '.wheres' do
     context 'single where equals' do
       let(:sql) { "select * from users where name='ada'" }
-      it 'returns an array of the group clauses' do
+      it 'returns an array of the where clauses' do
         expect(instance.wheres).to eq(%w(name))
       end
     end
 
     context 'where equals joined by ands ' do
       let(:sql) { "select * from users where name='ada' and last_name='lovelace'" }
-      it 'returns an array of the group clauses' do
+      it 'returns an array of the where clauses' do
         expect(instance.wheres).to eq(%w(name last_name))
+      end
+    end
+
+    context 'where equals joined by more ands' do
+      let(:sql) { "select * from users where name='ada' and last_name='lovelace' and company='tesla'" }
+      it 'returns an array of the where clauses' do
+        expect(instance.wheres).to eq(%w(name last_name company))
+      end
+    end
+
+    context 'where equals joined by more ands with parenthesis' do
+      let(:sql) { "select * from users where (name='ada' and last_name='lovelace') and company='tesla'" }
+      it 'returns an array of the where clauses' do
+        expect(instance.wheres).to eq(%w(name last_name company))
       end
     end
   end
