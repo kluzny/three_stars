@@ -68,18 +68,18 @@ describe ThreeStars::Builder do
       end
 
       context 'for many columns' do
-        let(:columns) {
+        let(:columns) do
           %w(
             foo bar baz
             qux quux quuux
             quuuux quuuuux quuuuuux
             quuuuuuux quuuuuuuux quuuuuuuuux
-          ).join(",")
-        }
+          ).join(',')
+        end
         let(:sql) { "select #{columns} from users" }
 
         it 'appends _idx to the index name' do
-          expect(instance.index_name.slice(-4,4)).to eq("_idx")
+          expect(instance.index_name.slice(-4, 4)).to eq('_idx')
         end
 
         it 'should truncate the name to 47 characters' do
