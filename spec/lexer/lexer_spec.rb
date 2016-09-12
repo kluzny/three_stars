@@ -39,14 +39,14 @@ describe ThreeStars::Lexer do
   describe '.selectors' do
     subject { instance.selectors }
 
-    context "single selector" do
+    context 'single selector' do
       let(:sql) { 'select id from users' }
       it 'returns an array of the sql selectors' do
         expect(subject).to eq(%w(id))
       end
     end
 
-    context "multiple selectors" do
+    context 'multiple selectors' do
       let(:sql) { 'select id,name from users' }
       it 'returns an array of the sql selectors' do
         expect(subject).to eq(%w(id name))

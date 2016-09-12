@@ -45,7 +45,7 @@ module ThreeStars
     end
 
     def index_name_builder
-      present?(index_name) ? ", name: '#{index_name}'" : ""
+      present?(index_name) ? ", name: '#{index_name}'" : ''
     end
 
     def index_name
@@ -57,7 +57,7 @@ module ThreeStars
     end
 
     def index_name_too_long?
-      index_fields.join("_").length > MAX_INDEX_NAME_LENGTH - 4
+      index_fields.join('_').length > MAX_INDEX_NAME_LENGTH - 4
     end
 
     def slice_first_index_chars
@@ -65,7 +65,7 @@ module ThreeStars
       field_count = (MAX_INDEX_NAME_LENGTH / (slice_width + 1)) - 1
       index_fields.slice(0, field_count).map do |column|
         column.slice(0, slice_width)
-      end.join("_") + "_idx"
+      end.join('_') + '_idx'
     end
   end
 end
