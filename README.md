@@ -21,17 +21,25 @@ Or install it yourself as:
 
     $ gem install three_stars
 
+If you are using rails and want to bolt this directly onto ActiveRecord, create the file `config/initializers/three_stars.rb` with the following:
+
+```ruby
+ActiveRecord::Relation.include ThreeStars::Extensions::ActiveRecord::Relation
+```
+
+This adds the method `to_idx` similar to `to_sql`
+
 ## Usage
 
 1. Write/find a nasty slow query you'd like to improve
 2. Consider performing a pre-index benchmark, or at least note the query time in your development log
 3. Throw in a debugger BEFORE your query ( to mitigate sql caching )
-4. Append .recommend to the query and execute it
+4. Append `.to_idx` to the query and execute it
 5. Review the sql, explanation, and the recommended index
 6. Create a migration file for the index ( or just execute it )
 7. Grab some coffee or tea while the index builds
-8. Pontificate on hiring a DBA ( those indexes don't build quickly )
-9. Review the query performance and rebenchmark. ( on the bright side it's much quiker to drop and index )
+8. Pontificate on hiring a DBA ( those indexes don't always build quickly )
+9. Review the query performance and rebenchmark. ( on the bright side it's much quiker to drop an index )
 
 ## Contributing
 
