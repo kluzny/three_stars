@@ -22,7 +22,7 @@ module ThreeStars
     end
 
     def string_from_field(field)
-      field["String"]["str"]
+      field[1]["str"]
     end
 
     def column_fields(column)
@@ -30,9 +30,9 @@ module ThreeStars
     end
 
     def column_strings(column)
-      column_fields(column).map do |field|
+      column_fields(column).last.map do |field|
         string_from_field(field)
-      end
+      end.compact
     end
 
     def select_targets
@@ -88,16 +88,28 @@ module ThreeStars
       select_statement["whereClause"]
     end
 
+    def extract_expression(sub_clause)
+      sub_clause["lexpr"] || sub_clause["arg"]
+    end
+
+    def extract_string_from_expression(sub_clause)
+      column_strings(extract_expression(sub_clause))
+    end
+
+    def exit_type(where_type)
+      where_type == "A_Expr" || where_type == "NullTest"
+    end
+
     def denest_where_clause(where_clause)
       where_type, sub_clause = where_clause
       if where_type == "BoolExpr"
         sub_clause["args"].map do |arg|
           denest_where_clause(arg.to_a.first)
         end.flatten
-      elsif where_type != "A_Expr"
+      elsif !exit_type(where_type)
         denest_where_clause(sub_clause)
       else
-        column_strings(sub_clause["lexpr"])
+        extract_string_from_expression(sub_clause)
       end
     end
 

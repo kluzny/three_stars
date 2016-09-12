@@ -42,5 +42,12 @@ describe ThreeStars::Lexer do
         expect(subject).to eq(%w(name last_name company))
       end
     end
+
+    context "where using a NULL deleted_at field" do
+      let(:sql) { %{ SELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."name" = 'kyle' } }
+      it 'returns an array of the where clauses' do
+        expect(subject).to eq(%w(deleted_at name))
+      end
+    end
   end
 end

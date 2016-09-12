@@ -46,6 +46,16 @@ describe ThreeStars::Builder do
       end
     end
 
+    context "more complex query" do
+      let(:sql) do
+        %{ SELECT "users".* FROM "users" WHERE "users"."deleted_at" IS NULL AND "users"."name" = 'kyle' }
+      end
+
+      it 'returns an array of the where clauses' do
+        expect(instance.call).to eq 'add_index :users, [:deleted_at, :name]'
+      end
+    end
+
     context 'index name' do
       context 'as an option' do
         let(:options) { { name: 'my_idx' } }
