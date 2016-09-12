@@ -24,7 +24,9 @@ Or install it yourself as:
 If you are using rails and want to bolt this directly onto ActiveRecord, create the file `config/initializers/three_stars.rb` with the following:
 
 ```ruby
-ActiveRecord::Relation.include ThreeStars::Extensions::ActiveRecord::Relation
+if Rails.env.development?
+  ActiveRecord::Relation.include ThreeStars::Extensions::ActiveRecord::Relation
+end
 ```
 
 This adds the method `to_idx` similar to `to_sql`
