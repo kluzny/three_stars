@@ -1,4 +1,3 @@
-
 module ThreeStars
   # generate the recommended index
   class Builder
