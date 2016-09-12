@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/kluzny/three_stars.svg?branch=master)](https://travis-ci.org/kluzny/three_stars)
 # ThreeStars
 
 ThreeStars is an attempt to analyze basic sql queries and provide database index recommendations. Unfortunatley, this can't solve all of your sql performance problems, but hopefully, it can make the task trivial in simple cases.
