@@ -51,3 +51,6 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/kluzny
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+## Acknowledgements
+
+The inspiration for this gem came from a slide presentation [How to Design Indexes, Really](http://www.slideshare.net/billkarwin/how-to-design-indexes-really) by Bill Karwin. It's a good read if you need an overview of db indexes. It hints at the namesake's origin as well in [Relational Database Index Design and the Optimizers] (http://www.wiley.com/WileyCDA/WileyTitle/productCd-0471719994.html) which admitedly I haven't read.
