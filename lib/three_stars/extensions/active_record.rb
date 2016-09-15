@@ -4,7 +4,7 @@ module ThreeStars
       # extend active record relations to use the ThreeStar::Builder
       module Relation
         def to_idx(options = {})
-          ThreeStars.new(to_sql, options).call
+          ThreeStars.new(to_sql, options)
         # rubocop:disable Lint/RescueException
         rescue Exception => e
           puts "Unable to lex sql: #{e.message}\n" \
