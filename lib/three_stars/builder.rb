@@ -5,6 +5,7 @@ module ThreeStars
     attr_accessor :lexer, :name
 
     MAX_INDEX_NAME_LENGTH = 48 # good enough for mysql/psql
+    INDEX_NAME_SUFFIX = -'idx'
 
     def initialize(sql, options = {})
       self.name = options[:name]
@@ -52,20 +53,34 @@ module ThreeStars
       @index_name ||= if present?(name)
                         name
                       elsif index_name_too_long?
-                        slice_first_index_chars
+                        generate_index_name
                       end
     end
 
-    def index_name_too_long?
-      index_fields.join('_').length > MAX_INDEX_NAME_LENGTH - 4
+    # http://apidock.com/rails/ActiveRecord/ConnectionAdapters/SchemaStatements/add_index
+    def rails_style_index_name
+      index_fields
+        .dup
+        .unshift(index_table)
+        .push(INDEX_NAME_SUFFIX)
+        .join('_')
     end
 
-    def slice_first_index_chars
-      slice_width = 3
-      field_count = (MAX_INDEX_NAME_LENGTH / (slice_width + 1)) - 1
-      index_fields.slice(0, field_count).map do |column|
-        column.slice(0, slice_width)
-      end.join('_') + '_idx'
+    def index_name_too_long?
+      rails_style_index_name.length > MAX_INDEX_NAME_LENGTH
+    end
+
+    def generate_index_name
+      truncate_after = 3
+      delimiter = '_'
+      next_slice = truncate_after + delimiter.length
+      max_length = MAX_INDEX_NAME_LENGTH - INDEX_NAME_SUFFIX.length - next_slice
+      generated = index_table
+      index_fields.each do |field|
+        break if generated.length >= max_length
+        generated << delimiter + field.slice(0, truncate_after)
+      end
+      generated + delimiter + INDEX_NAME_SUFFIX
     end
   end
 end

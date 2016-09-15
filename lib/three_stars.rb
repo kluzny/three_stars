@@ -7,6 +7,9 @@ require 'three_stars/lexer'
 require 'three_stars/builder'
 require 'three_stars/extensions/active_record'
 
-# Generate sql index recommendations for ActiveRecord queries
+# Generate sql index recommendations for sql queries
 module ThreeStars
+  def self.new(sql, options = {})
+    ThreeStars::Builder.new(sql, options).call
+  end
 end
